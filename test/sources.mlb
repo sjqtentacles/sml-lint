@@ -1,0 +1,8 @@
+$(SML_LIB)/basis/basis.mlb
+
+../src/lint.mlb
+
+harness.sml
+test.sml
+entry.sml
+main.sml

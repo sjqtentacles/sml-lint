@@ -1,0 +1,8 @@
+(* MLB for sml-lint: the vendored sml-mlast frontend (lexer/parser/AST with
+ * source positions), then the linter itself. *)
+$(SML_LIB)/basis/basis.mlb
+
+../lib/github.com/sjqtentacles/sml-mlast/sources.mlb
+
+lint.sig
+lint.sml
