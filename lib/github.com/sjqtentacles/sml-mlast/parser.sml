@@ -735,8 +735,17 @@ struct
     let val lo = curLo () in
     (adv ();
      let
+       (* Fixity precedence: convert via `IntInf` (never overflows) and bound to
+          the portable signed-32-bit range, so an out-of-range precedence in a
+          malformed `infix` declaration defaults to 0 identically on MLton and
+          Poly/ML instead of raising `Overflow` under MLton's fixed-width `int`.
+          `2147483647` is a fixed literal, not `Int.maxInt` (NONE on Poly/ML). *)
        val prec = case peek () of
-                      Token.INT s => (adv (); valOf (Int.fromString s))
+                      Token.INT s =>
+                        (adv (); case IntInf.fromString s of
+                                     SOME n => if n >= 0 andalso n <= 2147483647
+                                               then IntInf.toInt n else 0
+                                   | NONE => 0)
                     | _ => 0
        fun loop acc =
          case peek () of
